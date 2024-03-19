@@ -1,20 +1,20 @@
 import style from './spaceBlock.module.css'
 import ElementBlock from "./elementBlock/elementBlock.tsx";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import Data from "../Interface/blockType.ts";
+import Data from "./Interface/blockType.ts";
 
 interface MessageProps {
     arrayBlock: Array<Data>;
-    setArrayBlock: Dispatch<SetStateAction<Array<object>>>;
-    rand: number;
+    setArrayBlock: Dispatch<SetStateAction<Array<Data>>>;
 }
-const SpaceBlock = ({arrayBlock, setArrayBlock, rand}: MessageProps) => {
-    const [randomIndex, setRandomIndex] = useState(parseInt(String(Math.random() * (rand - 1) + 1)));
+const SpaceBlock = ({arrayBlock, setArrayBlock}: MessageProps) => {
+    const [randomId, setRandomId] = useState<number>(0);
 
     useEffect(() => {
         if (arrayBlock.length > 0){
             const interval = setInterval(() => {
-                if (arrayBlock[randomIndex]?.time > 0) {
+                const randomIndex = arrayBlock.findIndex(block => block.id === randomId);
+                if (randomIndex !== -1 && arrayBlock[randomIndex]?.time > 0) {
                     const newArray = [...arrayBlock];
                     newArray[randomIndex].time -= 1;
                     setArrayBlock(newArray);
@@ -22,19 +22,20 @@ const SpaceBlock = ({arrayBlock, setArrayBlock, rand}: MessageProps) => {
                     clearInterval(interval);
                     const newArray = [...arrayBlock];
                     newArray.splice(randomIndex, 1);
-                    setArrayBlock(newArray)
-                    setRandomIndex(parseInt(String(Math.random() * (newArray.length - 1 - 1) + 1)))
+                    setArrayBlock(newArray);
+                    const randomId = newArray[Math.floor(Math.random() * newArray.length)].id;
+                    setRandomId(randomId);
                 }
             }, 1000);
 
             return () => clearInterval(interval);
         }
-    }, [arrayBlock, randomIndex]);
+    }, [arrayBlock, randomId]);
 
     const updateTimer = (e: MouseEvent, index: number) => {
         e.preventDefault()
         const newArray = [...arrayBlock];
-        newArray[index].time = 20;
+        newArray[index].time = newArray[index].startTime;
         setArrayBlock(newArray);
     }
 
