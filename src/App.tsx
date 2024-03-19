@@ -1,4 +1,4 @@
-import './App.css'
+import style from './App.module.css'
 import SpaceBlock from "./components/spaceBlock/spaceBlock.tsx";
 import {useState} from "react";
 import hexGenerator from "./utils/hexGenerator.ts";
@@ -12,21 +12,22 @@ function App() {
         const randomTime = parseInt(String(Math.random() * (25 - 3) + 3))
         return {id: index, startTime: randomTime, time: randomTime, color: hexGenerator()}
     }));
+    const [typeSort, setTypeSort] = useState<number>(0)
 
     return (
         <div>
-            <div>
-                <h1>Тестовое задание</h1>
+            <div className={style.function}>
+                <h1 className={style.title}>Тестовое задание</h1>
 
-                <RandomSort arrayBlock={arrayBlock} setArrayBlock={setArrayBlock} />
-
-                <AddBlock setArrayBlock={setArrayBlock} />
-
-                <SortTime setArrayBlock={setArrayBlock} />
+                <div className={style.positionFun}>
+                    <RandomSort arrayBlock={arrayBlock} setArrayBlock={setArrayBlock} />
+                    <AddBlock setArrayBlock={setArrayBlock} />
+                    <SortTime arrayBlock={arrayBlock} setArrayBlock={setArrayBlock} typeSort={typeSort} setTypeSort={setTypeSort}/>
+                </div>
             </div>
 
 
-            <SpaceBlock arrayBlock={arrayBlock} setArrayBlock={setArrayBlock}/>
+            <SpaceBlock arrayBlock={arrayBlock} setArrayBlock={setArrayBlock} typeSort={typeSort}/>
         </div>
     )
 }

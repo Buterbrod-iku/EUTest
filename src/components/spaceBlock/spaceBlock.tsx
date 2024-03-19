@@ -6,8 +6,9 @@ import Data from "./Interface/blockType.ts";
 interface MessageProps {
     arrayBlock: Array<Data>;
     setArrayBlock: Dispatch<SetStateAction<Array<Data>>>;
+    typeSort: number;
 }
-const SpaceBlock = ({arrayBlock, setArrayBlock}: MessageProps) => {
+const SpaceBlock = ({arrayBlock, setArrayBlock, typeSort}: MessageProps) => {
     const [randomId, setRandomId] = useState<number>(0);
 
     useEffect(() => {
@@ -34,9 +35,23 @@ const SpaceBlock = ({arrayBlock, setArrayBlock}: MessageProps) => {
 
     const updateTimer = (e: MouseEvent, index: number) => {
         e.preventDefault()
-        const newArray = [...arrayBlock];
-        newArray[index].time = newArray[index].startTime;
-        setArrayBlock(newArray);
+        if (typeSort === 0){
+            const newArray = [...arrayBlock];
+            newArray[index].time = newArray[index].startTime;
+            setArrayBlock(newArray);
+        }
+        else if (typeSort == 1) {
+            const newArray = [...arrayBlock];
+            newArray[index].time = newArray[index].startTime;
+            const sortedArray = [...newArray].sort((a, b) => a.time - b.time);
+            setArrayBlock(sortedArray);
+        }
+        else {
+            const newArray = [...arrayBlock];
+            newArray[index].time = newArray[index].startTime;
+            const altSortedArray = [...newArray].sort((a, b) => b.time - a.time);
+            setArrayBlock(altSortedArray);
+        }
     }
 
     return (

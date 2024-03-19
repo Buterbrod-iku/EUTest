@@ -1,3 +1,4 @@
+import style from './randomSort.module.css'
 import {Dispatch, SetStateAction} from 'react';
 import Data from "../../spaceBlock/Interface/blockType.ts";
 
@@ -24,7 +25,7 @@ const RandomSort = ({arrayBlock, setArrayBlock}: MessageProps) => {
         setArrayBlock(array)
     }
 
-    return (<button onClick={() => randomSort(arrayBlock)}>Перемешать</button>);
+    return (<button className={style.button} onClick={() => randomSort(arrayBlock)}>Перемешать</button>);
 };
 
 export default RandomSort;

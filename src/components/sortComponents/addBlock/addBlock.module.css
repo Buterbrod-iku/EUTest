@@ -1,0 +1,11 @@
+.main{
+    display: flex;
+}
+.hex{
+    margin-right: 5px;
+}
+.button{
+    margin-left: 5px;
+    padding: 0 20px;
+    cursor: pointer;
+}
